@@ -1,0 +1,8 @@
+# Emacs temp files
+\#*\#
+.\#*
+
+*.bak
+
+# Visual Studio's directory
+.vs/
