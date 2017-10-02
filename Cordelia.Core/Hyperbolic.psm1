@@ -3,28 +3,28 @@
 Set-StrictMode -Version Latest
 
 <#
-    .SYNOPSIS
-        Returns the inverse hyperbolic cosine of a specified number.
+.SYNOPSIS
+Returns the inverse hyperbolic cosine of a specified number.
 
-    .Description
-        This function returns the inverse hyperbolic cosine of a specified number as double-precision floating-point number.
-        The value returned is a hyperbolic angle where the hyperbolic cosine of this value will be the number specified by the user.
+.Description
+This function returns the inverse hyperbolic cosine of a specified number as double-precision floating-point number.
+The value returned is a hyperbolic angle where the hyperbolic cosine of this value will be the number specified by the user.
 
-    .Parameter Value
-        A number that represents a hyperbolic cosine that will be used to find the corresponding hyperbolic angle.
+.Parameter Value
+A number that represents a hyperbolic cosine that will be used to find the corresponding hyperbolic angle.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        http://mathworld.wolfram.com/InverseHyperbolicCosine.html
+.Link
+http://mathworld.wolfram.com/InverseHyperbolicCosine.html
 
-    .Example
-        Get-AreaHyperbolicCosine 5
-        2.29243166956118
+.Example
+Get-AreaHyperbolicCosine 5
+2.29243166956118
 #>
 function Get-AreaHyperbolicCosine
 {
@@ -33,45 +33,45 @@ function Get-AreaHyperbolicCosine
         [Double]$Value
     )
 
-	if(([Double]::IsNaN($Value)) -or ($Value -lt 1.0))
-	{
-		return [Double]::NaN;
-	}
-	elseif([Double]::IsPositiveInfinity($Value))
-	{
-		return [Double]::PositiveInfinity;
-	}
-	elseif($Value -eq 1.0)
-	{
-		return 0.0;
-	}
+    if(([Double]::IsNaN($Value)) -or ($Value -lt 1.0))
+    {
+        return [Double]::NaN;
+    }
+    elseif([Double]::IsPositiveInfinity($Value))
+    {
+        return [Double]::PositiveInfinity;
+    }
+    elseif($Value -eq 1.0)
+    {
+        return 0.0;
+    }
 
-	return (Get-NaturalLogarithm ($Value + (Get-SquareRoot (1.0 + $Value * $Value))));
+    return (Get-NaturalLogarithm ($Value + (Get-SquareRoot (1.0 + $Value * $Value))));
 }
 
 <#
-    .SYNOPSIS
-        Returns the inverse hyperbolic sine of a specified number.
+.SYNOPSIS
+Returns the inverse hyperbolic sine of a specified number.
 
-    .Description
-        This function returns the inverse hyperbolic sine of a specified number as double-precision floating-point number.
-        The value returned is a hyperbolic angle where the hyperbolic sine of this value will be the number specified by the user.
+.Description
+This function returns the inverse hyperbolic sine of a specified number as double-precision floating-point number.
+The value returned is a hyperbolic angle where the hyperbolic sine of this value will be the number specified by the user.
 
-    .Parameter Value
-        A number that represents a hyperbolic sine that will be used to find the corresponding hyperbolic angle.
+.Parameter Value
+A number that represents a hyperbolic sine that will be used to find the corresponding hyperbolic angle.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        http://mathworld.wolfram.com/InverseHyperbolicSine.html
+.Link
+http://mathworld.wolfram.com/InverseHyperbolicSine.html
 
-    .Example
-        Get-AreaHyperbolicSine 2.3
-        1.57027854348498
+.Example
+Get-AreaHyperbolicSine 2.3
+1.57027854348498
 #>
 function Get-AreaHyperbolicSine
 {
@@ -80,41 +80,41 @@ function Get-AreaHyperbolicSine
         [Double]$Value
     )
 
-	if(([Double]::IsNaN($Value)) -or ([Double]::IsInfinity($Value)))
-	{
-		return $Value;
-	}
-	elseif($Value -eq 0.0)
-	{
-		return 0.0;
-	}
+    if(([Double]::IsNaN($Value)) -or ([Double]::IsInfinity($Value)))
+    {
+        return $Value;
+    }
+    elseif($Value -eq 0.0)
+    {
+        return 0.0;
+    }
 
-	return (Get-NaturalLogarithm ($Value + (Get-SquareRoot (1.0 + $Value * $Value))));
+    return (Get-NaturalLogarithm ($Value + (Get-SquareRoot (1.0 + $Value * $Value))));
 }
 
 <#
-    .SYNOPSIS
-        Returns the inverse hyperbolic tangent of a specified number.
+.SYNOPSIS
+Returns the inverse hyperbolic tangent of a specified number.
 
-    .Description
-        This function returns the inverse hyperbolic tangent of a specified number as double-precision floating-point number.
-        The value returned is a hyperbolic angle where the hyperbolic tangent of this value will be the number specified by the user.
+.Description
+This function returns the inverse hyperbolic tangent of a specified number as double-precision floating-point number.
+The value returned is a hyperbolic angle where the hyperbolic tangent of this value will be the number specified by the user.
 
-    .Parameter Value
-        A number that represents a hyperbolic tangent that will be used to find the corresponding hyperbolic angle.
+.Parameter Value
+A number that represents a hyperbolic tangent that will be used to find the corresponding hyperbolic angle.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        http://mathworld.wolfram.com/InverseHyperbolicTangent.html
+.Link
+http://mathworld.wolfram.com/InverseHyperbolicTangent.html
 
-    .Example
-        Get-AreaHyperbolicTangent 0.5
-        0.549306144334055
+.Example
+Get-AreaHyperbolicTangent 0.5
+0.549306144334055
 #>
 function Get-AreaHyperbolicTangent
 {
@@ -123,49 +123,49 @@ function Get-AreaHyperbolicTangent
         [Double]$Value
     )
 
-	if(([Double]::IsNaN($Value)) -or ($Value -gt 1.0) -or ($Value -lt -1.0))
-	{
-		return [Double]::NaN;
-	}
-	elseif($Value -eq 1.0)
-	{
-		return [Double]::PositiveInfinity;
-	}
-	elseif($Value -eq -1.0)
-	{
-		return [Double]::NegativeInfinity;
-	}
-	elseif($Value -eq 0.0)
-	{
-		return 0.0;
-	}
+    if(([Double]::IsNaN($Value)) -or ($Value -gt 1.0) -or ($Value -lt -1.0))
+    {
+        return [Double]::NaN;
+    }
+    elseif($Value -eq 1.0)
+    {
+        return [Double]::PositiveInfinity;
+    }
+    elseif($Value -eq -1.0)
+    {
+        return [Double]::NegativeInfinity;
+    }
+    elseif($Value -eq 0.0)
+    {
+        return 0.0;
+    }
 
-	return 0.5 * (Get-NaturalLogarithm ((1.0 + $Value) / (1.0 - $Value)))
+    return 0.5 * (Get-NaturalLogarithm ((1.0 + $Value) / (1.0 - $Value)))
 }
 
 <#
-    .SYNOPSIS
-        Returns the hyperbolic cosine of a specified angle.
+.SYNOPSIS
+Returns the hyperbolic cosine of a specified angle.
 
-    .Description
-        This function returns the hyperbolic cosine of a specified hyperbolic angle as double-precision floating-point number.
-        This function is an alternative to [Math]::Cosh(...) .
+.Description
+This function returns the hyperbolic cosine of a specified hyperbolic angle as double-precision floating-point number.
+This function is an alternative to [Math]::Cosh(...) .
 
-    .Parameter Angle
-        A hyperbolic angle that will be used to find the corresponding hyperbolic cosine.
+.Parameter Angle
+A hyperbolic angle that will be used to find the corresponding hyperbolic cosine.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        https://msdn.microsoft.com/en-us/library/system.math.cosh(v=vs.110).aspx
+.Link
+https://msdn.microsoft.com/en-us/library/system.math.cosh(v=vs.110).aspx
 
-    .Example
-		Get-HyperbolicCosine 1.2
-		1.81065556732437
+.Example
+Get-HyperbolicCosine 1.2
+1.81065556732437
 #>
 function Get-HyperbolicCosine
 {
@@ -189,28 +189,28 @@ function Get-HyperbolicCosine
 }
 
 <#
-    .SYNOPSIS
-        Returns the hyperbolic sine of a specified angle.
+.SYNOPSIS
+Returns the hyperbolic sine of a specified angle.
 
-    .Description
-        This function returns the hyperbolic sine of a specified hyperbolic angle as double-precision floating-point number.
-        This function is an alternative to [Math]::Sinh(...) .
+.Description
+This function returns the hyperbolic sine of a specified hyperbolic angle as double-precision floating-point number.
+This function is an alternative to [Math]::Sinh(...) .
 
-    .Parameter Angle
-        A hyperbolic angle that will be used to find the corresponding hyperbolic sine.
+.Parameter Angle
+A hyperbolic angle that will be used to find the corresponding hyperbolic sine.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        https://msdn.microsoft.com/en-us/library/system.math.sinh(v=vs.110).aspx
+.Link
+https://msdn.microsoft.com/en-us/library/system.math.sinh(v=vs.110).aspx
 
-    .Example
-		Get-HyperbolicSine 2.1
-		4.02185674215733
+.Example
+Get-HyperbolicSine 2.1
+4.02185674215733
 #>
 function Get-HyperbolicSine
 {
@@ -238,28 +238,28 @@ function Get-HyperbolicSine
 }
 
 <#
-    .SYNOPSIS
-        Returns the hyperbolic tangent of a specified angle.
+.SYNOPSIS
+Returns the hyperbolic tangent of a specified angle.
 
-    .Description
-        This function returns the hyperbolic tangent of a specified hyperbolic angle as double-precision floating-point number.
-        This function is an alternative to [Math]::Tanh(...) .
+.Description
+This function returns the hyperbolic tangent of a specified hyperbolic angle as double-precision floating-point number.
+This function is an alternative to [Math]::Tanh(...) .
 
-    .Parameter Angle
-        A hyperbolic angle that will be used to find the corresponding hyperbolic tangent.
+.Parameter Angle
+A hyperbolic angle that will be used to find the corresponding hyperbolic tangent.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        https://msdn.microsoft.com/en-us/library/system.math.tanh(v=vs.110).aspx
+.Link
+https://msdn.microsoft.com/en-us/library/system.math.tanh(v=vs.110).aspx
 
-    .Example
-		Get-HyperbolicTangent -1.1
-		-0.80049902176063
+.Example
+Get-HyperbolicTangent -1.1
+-0.80049902176063
 #>
 function Get-HyperbolicTangent
 {

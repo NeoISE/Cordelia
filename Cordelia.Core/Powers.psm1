@@ -4,31 +4,31 @@
 Set-StrictMode -Version Latest
 
 <#
-    .SYNOPSIS
-        Returns the result of [Math]::E raised to the specified power.
+.SYNOPSIS
+Returns the result of [Math]::E raised to the specified power.
 
-    .Description
-        This function returns the result of the natural number, e, raised to the specified power. This function is an alternative to [Math]::Exp(...) .
+.Description
+This function returns the result of the natural number, e, raised to the specified power. This function is an alternative to [Math]::Exp(...) .
 
-    .Parameter Power
-        The number that specifies a power.
+.Parameter Power
+The number that specifies a power.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Notes
-        This function uses the Maclaurin Series to approximate e^x with x being -1 < x < 1.
-        For powers outside this range, the integral and fractional part of the power is stripped apart with the integral part performed seperately.
+.Notes
+This function uses the Maclaurin Series to approximate e^x with x being -1 < x < 1.
+For powers outside this range, the integral and fractional part of the power is stripped apart with the integral part performed seperately.
 
-    .Link
-        https://msdn.microsoft.com/en-us/library/system.math.exp(v=vs.110).aspx
+.Link
+https://msdn.microsoft.com/en-us/library/system.math.exp(v=vs.110).aspx
 
-    .Example
-        Get-NaturalExponentiation 1
-        2.71828182845905
+.Example
+Get-NaturalExponentiation 1
+2.71828182845905
 #>
 function Get-NaturalExponentiation
 {
@@ -76,30 +76,30 @@ function Get-NaturalExponentiation
 }
 
 <#
-    .SYNOPSIS
-        Returns the result of a specified number (base) raised to the specified power.
+.SYNOPSIS
+Returns the result of a specified number (base) raised to the specified power.
 
-    .Description
-        This function returns the power of a specified number such that (Base)^(Power). This function is an alternative to [Math]::Pow(...) .
+.Description
+This function returns the power of a specified number such that (Base)^(Power). This function is an alternative to [Math]::Pow(...) .
 
-    .Parameter Base
-        The number to be raised to a power.
+.Parameter Base
+The number to be raised to a power.
 
-    .Parameter Power
-        The number that specifies a power.
+.Parameter Power
+The number that specifies a power.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        https://msdn.microsoft.com/en-us/library/system.math.pow(v=vs.110).aspx
+.Link
+https://msdn.microsoft.com/en-us/library/system.math.pow(v=vs.110).aspx
 
-    .Example
-        Get-GeneralExponentiation 2 2
-        4
+.Example
+Get-GeneralExponentiation 2 2
+4
 #>
 function Get-GeneralExponentiation
 {
@@ -122,7 +122,7 @@ function Get-GeneralExponentiation
     }
     elseif([Double]::IsNegativeInfinity($Base))
     {
-        [Double]$temp = 2.0 * (Get-Truncated ($integralPart / 2.0));	# Should match the integral part of the power if the integral part is an even integer
+        [Double]$temp = 2.0 * (Get-Truncated ($integralPart / 2.0));    # Should match the integral part of the power if the integral part is an even integer
         if($Power -lt 0.0)
         {
             return 0.0;
@@ -204,7 +204,7 @@ function Get-GeneralExponentiation
     $integralPart = (Get-AbsoluteValue $integralPart);
     [Double]$integralResult = 1.0;
 
-	# loop through and multiply by Base.
+    # loop through and multiply by Base.
     while($integralPart -gt 0.0)
     {
         $integralResult = $integralResult * $Base;
@@ -220,27 +220,27 @@ function Get-GeneralExponentiation
 }
 
 <#
-    .SYNOPSIS
-        Returns the natural (base E) logarithm of a specified number.
+.SYNOPSIS
+Returns the natural (base E) logarithm of a specified number.
 
-    .Description
-        This function returns the logarithm of a specified number in Base [Math]::E. This function is an alternative to [Math]::Log(...) .
+.Description
+This function returns the logarithm of a specified number in Base [Math]::E. This function is an alternative to [Math]::Log(...) .
 
-    .Parameter Value
-        The number whose logarithm is to be found.
+.Parameter Value
+The number whose logarithm is to be found.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        http://mathworld.wolfram.com/Logarithm.html
+.Link
+http://mathworld.wolfram.com/Logarithm.html
 
-    .Example
-        Get-Logarithm ([Math]::E)
-        1
+.Example
+Get-Logarithm ([Math]::E)
+1
 #>
 function Get-NaturalLogarithm
 {
@@ -262,77 +262,77 @@ function Get-NaturalLogarithm
         return [Double]::NaN;
     }
 
-	# ln(x) = ln((1-y)/(1+y)) = 2*(y + y^3/3 + ...)
+    # ln(x) = ln((1-y)/(1+y)) = 2*(y + y^3/3 + ...)
 
     [Double]$adjustedValue = $Value;
     [Double]$exponent = 0.0;
 
-	# adjustedValue must be in [1, 10)
-	if($adjustedValue -ge 10.0)
-	{
-		do
-		{
-			$adjustedValue = $adjustedValue / 10.0;
-	        $exponent = $exponent + 1.0;
-		}
-		while($adjustedValue -ge 10.0)
-	}
-	elseif($adjustedValue -lt 1.0)
-	{
-		do
-		{
-			$adjustedValue = $adjustedValue * 10.0;
-			$exponent = $exponent - 1.0;
-		}
-		while($adjustedValue -lt 1.0)
-	}
+    # adjustedValue must be in [1, 10)
+    if($adjustedValue -ge 10.0)
+    {
+        do
+        {
+            $adjustedValue = $adjustedValue / 10.0;
+            $exponent = $exponent + 1.0;
+        }
+        while($adjustedValue -ge 10.0)
+    }
+    elseif($adjustedValue -lt 1.0)
+    {
+        do
+        {
+            $adjustedValue = $adjustedValue * 10.0;
+            $exponent = $exponent - 1.0;
+        }
+        while($adjustedValue -lt 1.0)
+    }
 
-    [Double]$rate = ($adjustedValue - 1.0) / ($adjustedValue + 1.0);	# y = (x - 1) / (x + 1)
-    [Double]$rate2 = $rate;												# represents the term y^(2i+1) for 0 <= i <= 100
-    [Double]$result = 0.0;				# The approx. answer
-	[Double]$i = 0.0;
+    [Double]$rate = ($adjustedValue - 1.0) / ($adjustedValue + 1.0);    # y = (x - 1) / (x + 1)
+    [Double]$rate2 = $rate;                                                 # represents the term y^(2i+1) for 0 <= i <= 100
+    [Double]$result = 0.0;              # The approx. answer
+    [Double]$i = 0.0;
 
     for(; $i -le 100.0; ++$i)
     {
-        $result = $result + $rate2 / ($i * 2.0 + 1.0);			# (1 / (2i + 1)) * y^(2i+1)
-        $rate2 = $rate2 * $rate * $rate;						# y^(2*(i+1)+1) = y^(2i+1) * y^2
+        $result = $result + $rate2 / ($i * 2.0 + 1.0);          # (1 / (2i + 1)) * y^(2i+1)
+        $rate2 = $rate2 * $rate * $rate;                        # y^(2*(i+1)+1) = y^(2i+1) * y^2
     }
 
-    $result = $result + $rate2 / ($i * 2.0 + 1.0);				# the 101-th term, since the values were left from the buffer.
+    $result = $result + $rate2 / ($i * 2.0 + 1.0);              # the 101-th term, since the values were left from the buffer.
 
-    return (2.0 * $result) + $exponent * 2.3025850929940456840179914546844;			# Equivalent to ln(x / 10^n) + n*ln(10)
+    return (2.0 * $result) + $exponent * 2.3025850929940456840179914546844;             # Equivalent to ln(x / 10^n) + n*ln(10)
 }
 
 <#
-    .SYNOPSIS
-        Returns the logarithm of a specified number in a specified base.
+.SYNOPSIS
+Returns the logarithm of a specified number in a specified base.
 
-    .Description
-        This function returns the logarithm of a specified number in a particular base, that may be specified by the caller,
-        but by default, the base of the logarithm is Base-10. This function is an alternative to [Math]::Log(... , ...) and [Math]::Log10(...) .
+.Description
+This function returns the logarithm of a specified number in a particular base, that may be specified by the caller,
+but by default, the base of the logarithm is Base-10. This function is an alternative to [Math]::Log(... , ...) and [Math]::Log10(...) .
 
-    .Parameter Value
-        The number whose logarithm is to be found.
+.Parameter Value
+The number whose logarithm is to be found.
 
-    .Parameter Base
-        The base of the logarithm.
+.Parameter Base
+The base of the logarithm.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        http://mathworld.wolfram.com/Logarithm.html
+.Link
+http://mathworld.wolfram.com/Logarithm.html
 
-    .Example
-        Get-Logarithm 10
-        1
+.Example
+Get-Logarithm 10
+1
 
-    .Example
-        Get-Logarithm 2 2
-        1
+.Example
+Get-Logarithm 2 2
+1
 #>
 function Get-GeneralLogarithm
 {
@@ -378,59 +378,59 @@ function Get-GeneralLogarithm
         return 0.0;
     }
 
-	if($Base -eq 10.0)
-	{
-		# Quickly spit out the result for Base-10
-		return (Get-NaturalLogarithm $Value) / 2.3025850929940456840179914546844;
-	}
-	elseif($Base -eq 2.0)
-	{
-		# Quickly spit out the result for Base-2
-		return (Get-NaturalLogarithm $Value) / 0.69314718055994530941723212145818;
-	}
-	elseif($Base -eq 8.0)
-	{
-		# Quickly spit out the result for Base-8
-		return (Get-NaturalLogarithm $Value) / 2.0794415416798359282516963643745;
-	}
-	elseif($Base -eq 16.0)
-	{
-		# Quickly spit out the result for Base-16;
-		return (Get-NaturalLogarithm $Value) / 2.7725887222397812376689284858327;
-	}
-	else
-	{
-		# return the logarithm with uncommon bases
-		return (Get-NaturalLogarithm $Value) / (Get-NaturalLogarithm $Base);
-	}
+    if($Base -eq 10.0)
+    {
+        # Quickly spit out the result for Base-10
+        return (Get-NaturalLogarithm $Value) / 2.3025850929940456840179914546844;
+    }
+    elseif($Base -eq 2.0)
+    {
+        # Quickly spit out the result for Base-2
+        return (Get-NaturalLogarithm $Value) / 0.69314718055994530941723212145818;
+    }
+    elseif($Base -eq 8.0)
+    {
+        # Quickly spit out the result for Base-8
+        return (Get-NaturalLogarithm $Value) / 2.0794415416798359282516963643745;
+    }
+    elseif($Base -eq 16.0)
+    {
+        # Quickly spit out the result for Base-16;
+        return (Get-NaturalLogarithm $Value) / 2.7725887222397812376689284858327;
+    }
+    else
+    {
+        # return the logarithm with uncommon bases
+        return (Get-NaturalLogarithm $Value) / (Get-NaturalLogarithm $Base);
+    }
 }
 
 <#
-    .SYNOPSIS
-        Returns the square root of a specified number.
+.SYNOPSIS
+Returns the square root of a specified number.
 
-    .Description
-        This function returns the square root of a number and provides an easy call for square root. This function is an alternative to [Math]::Sqrt(...) .
+.Description
+This function returns the square root of a number and provides an easy call for square root. This function is an alternative to [Math]::Sqrt(...) .
 
-    .Parameter Value
-        The number that needs to be square-rooted.
+.Parameter Value
+The number that needs to be square-rooted.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Notes
-        Unlike the typical approach of using exp(.5 * ln(x)), this function will be less expensive in terms of floating-point operations.
-		However, the typical approach is used for 0 <= x <= 0.25.
+.Notes
+Unlike the typical approach of using exp(.5 * ln(x)), this function will be less expensive in terms of floating-point operations.
+However, the typical approach is used for 0 <= x <= 0.25.
 
-    .Link
-        http://mathworld.wolfram.com/SquareRoot.html
+.Link
+http://mathworld.wolfram.com/SquareRoot.html
 
-    .Example
-		Get-SquareRoot 25
-		5
+.Example
+Get-SquareRoot 25
+5
 #>
 function Get-SquareRoot
 {
@@ -458,130 +458,130 @@ function Get-SquareRoot
     if($Value -le 0.25)
     {
         # Using Householder's methods (i.e. Newton's method and Halley's method) for sqrt fails to converge properly near 0.0;
-        # Thus, the logarithm is used.
-        return (Get-NaturalExponentiation (0.5 * (Get-NaturalLogarithm $Value)));
-    }
-    elseif($Value -le 0.542)
-    {
-		# Initial guess, good below 0.542
-        $result = 0.0;
-    }
-    elseif($Value -le 30.15)
-    {
-		# Initial guess, good below 30.15
-        # The following inital guess is great for 3 <= x <= 5
-        $result = (Get-NaturalLogarithm $Value) + 0.6125;
-    }
-    elseif($Value -lt 2000.0)
-    {
-		# Initial guess, good below 2000
-        $result = [Math]::PI * 5.25 - (1000 / ($Value + 50));
-    }
-    else
-    {
-        $result = (Get-RootApproximation $Value -Scale 2);
-    }
-
-    [Double]$previous = 0.0;      	# The previous result, if previous == result, then exit.
-	[Double]$resultSquared = 0.0;	# Equivalent to (result * result)
-
-    # Using Householder's methods (i.e. Newton's method and Halley's method) for sqrt with a counter to prevent infinite loops.
-    do
-    {
-        $previous = $result;
-        $resultSquared = $result * $result;
-		$result = $result * ($resultSquared + 3.0 * $Value) / (3.0 * $resultSquared + $Value);
-    }
-    while(($previous -ne $result) -and (($iterations++) -lt 400))
-
-    return $result;
+# Thus, the logarithm is used.
+return (Get-NaturalExponentiation (0.5 * (Get-NaturalLogarithm $Value)));
+}
+elseif($Value -le 0.542)
+{
+    # Initial guess, good below 0.542
+    $result = 0.0;
+}
+elseif($Value -le 30.15)
+{
+    # Initial guess, good below 30.15
+    # The following inital guess is great for 3 <= x <= 5
+    $result = (Get-NaturalLogarithm $Value) + 0.6125;
+}
+elseif($Value -lt 2000.0)
+{
+    # Initial guess, good below 2000
+    $result = [Math]::PI * 5.25 - (1000 / ($Value + 50));
+}
+else
+{
+    $result = (Get-RootApproximation $Value -Scale 2);
 }
 
-<#
+[Double]$previous = 0.0;        # The previous result, if previous == result, then exit.
+[Double]$resultSquared = 0.0;   # Equivalent to (result * result)
+
+# Using Householder's methods (i.e. Newton's method and Halley's method) for sqrt with a counter to prevent infinite loops.
+        do
+        {
+            $previous = $result;
+            $resultSquared = $result * $result;
+            $result = $result * ($resultSquared + 3.0 * $Value) / (3.0 * $resultSquared + $Value);
+        }
+        while(($previous -ne $result) -and (($iterations++) -lt 400))
+
+        return $result;
+    }
+
+    <#
     .SYNOPSIS
-        Returns the cube root of a specified number.
+    Returns the cube root of a specified number.
 
     .Description
-        This function returns the cube root of a number and provides an easy call for cube root.
+    This function returns the cube root of a number and provides an easy call for cube root.
 
     .Parameter Value
-        The number that needs to be cube-rooted.
+    The number that needs to be cube-rooted.
 
     .Inputs
-        [System.Double]
+    [System.Double]
 
     .Outputs
-        [System.Double]
+    [System.Double]
 
     .Notes
-		Unlike the typical approach of using exp(1/3 * ln(x)), this function will be less expensive in terms of floating-point operations.
-		However, the typical approach is used for 0 <= x <= 0.25.
+    Unlike the typical approach of using exp(1/3 * ln(x)), this function will be less expensive in terms of floating-point operations.
+    However, the typical approach is used for 0 <= x <= 0.25.
 
     .Link
-        http://mathworld.wolfram.com/CubeRoot.html
+    http://mathworld.wolfram.com/CubeRoot.html
 
     .Example
-		Get-CubeRoot 27
-		3
-#>
-function Get-CubeRoot
+    Get-CubeRoot 27
+    3
+    #>
+    function Get-CubeRoot
+    {
+        param(
+            [Parameter(Mandatory = $true, Position = 0)]
+            [Double]$Value
+        )
+
+        if([Double]::IsNaN($Value))
+        {
+            return [Double]::NaN;
+        }
+        elseif([Double]::IsInfinity($Value))
+        {
+            return $Value;
+        }
+        elseif($Value -eq 0.0)
+        {
+            return 0.0;
+        }
+
+        [Double]$abs = (Get-AbsoluteValue $Value);
+        [Int]$iterations = 0;       # If counter value exceed 400, then exit.
+
+        [Double]$result = 0.0;      # The approx. answer
+
+        if($abs -le 0.25)
+        {
+            # Using Householder's methods (i.e. Newton's method and Halley's method) for cube root fails to converge properly near 0.0;
+# Thus, the logarithm is used.
+return (Get-NaturalExponentiation ((Get-NaturalLogarithm $Value) / 3.0));
+}
+elseif($abs -le 5.0)
 {
-    param(
-        [Parameter(Mandatory = $true, Position = 0)]
-        [Double]$Value
-    )
+    # Initial guess, good below 5.0
+    $result = 1.0;
+}
+elseif($abs -lt 50000.0)
+{
+    # Initial guess, good below 50000.0
+    $result = (Get-NaturalLogarithm $abs) - 0.5;
+}
+else
+{
+    $result = (Get-RootApproximation $abs -Scale 3);
+}
 
-    if([Double]::IsNaN($Value))
-    {
-        return [Double]::NaN;
-    }
-    elseif([Double]::IsInfinity($Value))
-    {
-        return $Value;
-    }
-    elseif($Value -eq 0.0)
-    {
-        return 0.0;
-    }
+[Double]$previous = 0.0;            # The previous result, if previous == result, then exit.
+[Double]$tripleResult = 0.0;
 
-    [Double]$abs = (Get-AbsoluteValue $Value);
-	[Int]$iterations = 0;		# If counter value exceed 400, then exit.
+do
+{
+    $previous = $result;
+    $resultCubed = $result * $result * $result;
+    $result = $result * ($resultCubed + 2.0 * $abs) / (2.0 * $resultCubed + $abs);
+}
+while(($previous -ne $result) -and (($iterations++) -lt 400))
 
-    [Double]$result = 0.0;		# The approx. answer
-
-	if($abs -le 0.25)
-    {
-        # Using Householder's methods (i.e. Newton's method and Halley's method) for cube root fails to converge properly near 0.0;
-        # Thus, the logarithm is used.
-        return (Get-NaturalExponentiation ((Get-NaturalLogarithm $Value) / 3.0));
-    }
-    elseif($abs -le 5.0)
-    {
-		# Initial guess, good below 5.0
-        $result = 1.0;
-    }
-    elseif($abs -lt 50000.0)
-    {
-		# Initial guess, good below 50000.0
-        $result = (Get-NaturalLogarithm $abs) - 0.5;
-    }
-    else
-    {
-        $result = (Get-RootApproximation $abs -Scale 3);
-    }
-
-    [Double]$previous = 0.0;			# The previous result, if previous == result, then exit.
-	[Double]$tripleResult = 0.0;
-
-    do
-    {
-        $previous = $result;
-        $resultCubed = $result * $result * $result;
-        $result = $result * ($resultCubed + 2.0 * $abs) / (2.0 * $resultCubed + $abs);
-    }
-    while(($previous -ne $result) -and (($iterations++) -lt 400))
-
-    return (Get-Sign $Value) * $result;
+return (Get-Sign $Value) * $result;
 }
 
 
@@ -605,15 +605,15 @@ function Get-ExpTiny
         return 1.0;
     }
 
-    [Double]$rate = $Value * $Value / 2.0;		# The "second" term of the Maclauren series expansion.
-    [Double]$result = 1.0 + $Value;				# The "zeroth" and "first" terms.
+    [Double]$rate = $Value * $Value / 2.0;      # The "second" term of the Maclauren series expansion.
+    [Double]$result = 1.0 + $Value;                 # The "zeroth" and "first" terms.
 
     # Lagrange Remainder shows that n = 177 seems to give error bounds smaller than [Double]::Epsilion,
     # the value in IEEE that is the smallest in significance before the system reads it as zero.
     for([Double]$i = 3.0; $i -le 177.0; ++$i)
     {
         $result = $result + $rate;
-        $rate = $rate * $Value / $i;		# The i-th term of the Maclauren series expansion.
+        $rate = $rate * $Value / $i;        # The i-th term of the Maclauren series expansion.
     }
 
     return $result + $rate;

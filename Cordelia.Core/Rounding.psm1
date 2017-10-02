@@ -3,31 +3,31 @@
 Set-StrictMode -Version Latest
 
 <#
-    .SYNOPSIS
-        Returns the largest integer less than or equal to the specified number.
+.SYNOPSIS
+Returns the largest integer less than or equal to the specified number.
 
-    .Description
-        This function returns the largest integer less than or equal to the specified double-precision floating-point number.
-        This function is an alternative to [Math]::Floor(...) .
+.Description
+This function returns the largest integer less than or equal to the specified double-precision floating-point number.
+This function is an alternative to [Math]::Floor(...) .
 
-    .Parameter Value
-        The number that needs to be rounded towards negative infinity.
+.Parameter Value
+The number that needs to be rounded towards negative infinity.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Notes
-        This kind of rounding is sometimes called rounding toward negative infinity.
+.Notes
+This kind of rounding is sometimes called rounding toward negative infinity.
 
-    .Link
-        https://msdn.microsoft.com/en-us/library/e0b5f0xb(v=vs.110).aspx
+.Link
+https://msdn.microsoft.com/en-us/library/e0b5f0xb(v=vs.110).aspx
 
-    .Example
-        Get-Floor 1.234567890
-        1
+.Example
+Get-Floor 1.234567890
+1
 #>
 function Get-Floor
 {
@@ -56,31 +56,31 @@ function Get-Floor
 
 
 <#
-    .SYNOPSIS
-        Returns the largest integer greater than or equal to the specified number.
+.SYNOPSIS
+Returns the largest integer greater than or equal to the specified number.
 
-    .Description
-        This function returns the largest integer greater than or equal to the specified double-precision floating-point number.
-        This function is an alternative to [Math]::Ceiling(...) .
+.Description
+This function returns the largest integer greater than or equal to the specified double-precision floating-point number.
+This function is an alternative to [Math]::Ceiling(...) .
 
-    .Parameter Value
-        The number that needs to be rounded towards positive infinity.
+.Parameter Value
+The number that needs to be rounded towards positive infinity.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Notes
-        This kind of rounding is sometimes called rounding toward positive infinity.
+.Notes
+This kind of rounding is sometimes called rounding toward positive infinity.
 
-    .Link
-        https://msdn.microsoft.com/en-us/library/zx4t0t48(v=vs.110).aspx
+.Link
+https://msdn.microsoft.com/en-us/library/zx4t0t48(v=vs.110).aspx
 
-    .Example
-        Get-Ceiling 1.234567890
-        2
+.Example
+Get-Ceiling 1.234567890
+2
 #>
 function Get-Ceiling
 {
@@ -107,28 +107,28 @@ function Get-Ceiling
 
 
 <#
-    .SYNOPSIS
-        Calculates the integral part of a number.
+.SYNOPSIS
+Calculates the integral part of a number.
 
-    .Description
-        This function calculates the integral part of a specified double-precision floating-point number.
-        This function is an alternative to [Math]::Truncate(...) .
+.Description
+This function calculates the integral part of a specified double-precision floating-point number.
+This function is an alternative to [Math]::Truncate(...) .
 
-    .Parameter Value
-        The number that needs to be truncated.
+.Parameter Value
+The number that needs to be truncated.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        https://msdn.microsoft.com/en-us/library/c2eabd70(v=vs.110).aspx
+.Link
+https://msdn.microsoft.com/en-us/library/c2eabd70(v=vs.110).aspx
 
-    .Example
-        Get-Truncated 1.234567890
-        1
+.Example
+Get-Truncated 1.234567890
+1
 #>
 function Get-Truncated
 {
@@ -171,54 +171,54 @@ function Get-Truncated
 }
 
 <#
-    .SYNOPSIS
-        Rounds a double-precision floating-point value to the nearest number.
+.SYNOPSIS
+Rounds a double-precision floating-point value to the nearest number.
 
-    .Description
-        This function rounds the value of a specified double-precision floating-point number towards a specified number of digits along
-        with specifying the behavior of rounding at the midpoint of two integers.
-        This function is an alternative to [Math]::Round([Double],[Int],[MidpointRounding]) .
+.Description
+This function rounds the value of a specified double-precision floating-point number towards a specified number of digits along
+with specifying the behavior of rounding at the midpoint of two integers.
+This function is an alternative to [Math]::Round([Double],[Int],[MidpointRounding]) .
 
-    .Parameter Value
-        A number that is greater than or equal to [Double]::MinValue, but less than or equal to [Double]::MaxValue.
+.Parameter Value
+A number that is greater than or equal to [Double]::MinValue, but less than or equal to [Double]::MaxValue.
 
-    .Parameter Digits
-        Specifies the number of decimal places or digits after the decimal point.
+.Parameter Digits
+Specifies the number of decimal places or digits after the decimal point.
 
-    .Parameter Mode
-        Specifies the behavior that is used to break a tie when Value is half way between two integers.
+.Parameter Mode
+Specifies the behavior that is used to break a tie when Value is half way between two integers.
 
-    .Inputs
-        [System.Double] with accept additionally [System.Int] and [System.MidpointRounding]
+.Inputs
+[System.Double] with accept additionally [System.Int] and [System.MidpointRounding]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Notes
-        Due to internally multiplying Value with 10^Digits, values like 2.135 will round to 2.13 rather than 2.14 due to loss of precision just like [Math]::Round(...). See Example 4.
+.Notes
+Due to internally multiplying Value with 10^Digits, values like 2.135 will round to 2.13 rather than 2.14 due to loss of precision just like [Math]::Round(...). See Example 4.
 
-    .Link
-        https://msdn.microsoft.com/en-us/library/f5898377(v=vs.110).aspx
+.Link
+https://msdn.microsoft.com/en-us/library/f5898377(v=vs.110).aspx
 
-    .Example
-        Get-Rounded 11.5
-        12.0
+.Example
+Get-Rounded 11.5
+12.0
 
-    .Example
-        Get-Rounded 12.12345 -Digits 3
-        12.123
+.Example
+Get-Rounded 12.12345 -Digits 3
+12.123
 
-    .Example
-        Get-Rounded 12.5 -Mode AwayFromZero
-        13
+.Example
+Get-Rounded 12.5 -Mode AwayFromZero
+13
 
-    .Example
-        Get-Rounded 2.135 -Digits 2
-        2.13
+.Example
+Get-Rounded 2.135 -Digits 2
+2.13
 
-    .Example
-        Get-Rounded 12.12345 -Digits 4 -Mode AwayFromZero
-        12.1235
+.Example
+Get-Rounded 12.12345 -Digits 4 -Mode AwayFromZero
+12.1235
 #>
 function Get-Rounded
 {

@@ -8,127 +8,127 @@
 
 @{
 
-# Script module or binary module file associated with this manifest.
-# RootModule = ''
+    # Script module or binary module file associated with this manifest.
+    # RootModule = ''
 
-# Version number of this module.
-ModuleVersion = '0.3.0.13'
+    # Version number of this module.
+    ModuleVersion = '0.3.0.13'
 
-# ID used to uniquely identify this module
-GUID = 'a98cac20-b81f-4475-9d19-51fead247c09'
+    # ID used to uniquely identify this module
+    GUID = 'a98cac20-b81f-4475-9d19-51fead247c09'
 
-# Author of this module
-Author = 'Maniroth Ouk'
+    # Author of this module
+    Author = 'Maniroth Ouk'
 
-# Company or vendor of this module
-CompanyName = 'Unknown'
+    # Company or vendor of this module
+    CompanyName = 'Unknown'
 
-# Copyright statement for this module
-Copyright = '(c) 2016 Maniroth Ouk. All rights reserved.'
+    # Copyright statement for this module
+    Copyright = '(c) 2016-2017 Maniroth Ouk. All rights reserved.'
 
-# Description of the functionality provided by this module
-Description = 'The core module of the Powershell math library, Cordelia.'
+    # Description of the functionality provided by this module
+    Description = 'The core module of the Powershell math library, Cordelia.'
 
-# Minimum version of the Windows PowerShell engine required by this module
-PowerShellVersion = '3.0'
+    # Minimum version of the Windows PowerShell engine required by this module
+    PowerShellVersion = '3.0'
 
-# Name of the Windows PowerShell host required by this module
-# PowerShellHostName = ''
+    # Name of the Windows PowerShell host required by this module
+    # PowerShellHostName = ''
 
-# Minimum version of the Windows PowerShell host required by this module
-# PowerShellHostVersion = ''
+    # Minimum version of the Windows PowerShell host required by this module
+    # PowerShellHostVersion = ''
 
-# Minimum version of Microsoft .NET Framework required by this module
-# DotNetFrameworkVersion = ''
+    # Minimum version of Microsoft .NET Framework required by this module
+    # DotNetFrameworkVersion = ''
 
-# Minimum version of the common language runtime (CLR) required by this module
-# CLRVersion = ''
+    # Minimum version of the common language runtime (CLR) required by this module
+    # CLRVersion = ''
 
-# Processor architecture (None, X86, Amd64) required by this module
-# ProcessorArchitecture = ''
+    # Processor architecture (None, X86, Amd64) required by this module
+    # ProcessorArchitecture = ''
 
-# Modules that must be imported into the global environment prior to importing this module
-# RequiredModules = @()
+    # Modules that must be imported into the global environment prior to importing this module
+    # RequiredModules = @()
 
-# Assemblies that must be loaded prior to importing this module
-# RequiredAssemblies = @()
+    # Assemblies that must be loaded prior to importing this module
+    # RequiredAssemblies = @()
 
-# Script files (.ps1) that are run in the caller's environment prior to importing this module.
-# ScriptsToProcess = @()
+    # Script files (.ps1) that are run in the caller's environment prior to importing this module.
+    # ScriptsToProcess = @()
 
-# Type files (.ps1xml) to be loaded when importing this module
-# TypesToProcess = @()
+    # Type files (.ps1xml) to be loaded when importing this module
+    # TypesToProcess = @()
 
-# Format files (.ps1xml) to be loaded when importing this module
-# FormatsToProcess = @()
+    # Format files (.ps1xml) to be loaded when importing this module
+    # FormatsToProcess = @()
 
-# Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-NestedModules = @('SignNumbers.psm1',
-               'Rounding.psm1',
-               'Powers.psm1',
-               'Trigonometric.psm1',
-               'Hyperbolic.psm1',
-               'Remainder.psm1',
-               'Comparison.psm1')
+    # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
+    NestedModules = @('SignNumbers.psm1',
+                      'Rounding.psm1',
+                      'Powers.psm1',
+                      'Trigonometric.psm1',
+                      'Hyperbolic.psm1',
+                      'Remainder.psm1',
+                      'Comparison.psm1')
 
-# Functions to export from this module
-FunctionsToExport = 'Get-Sign', 'Get-AbsoluteValue', 'Get-Truncated', 'Get-Floor',
-               'Get-Ceiling', 'Get-Rounded', 'Get-NaturalExponentiation',
-               'Get-NaturalLogarithm', 'Get-GeneralExponentiation',
-               'Get-GeneralLogarithm', 'Get-SquareRoot', 'Get-CubeRoot', 'Get-Cosine',
-               'Get-Sine', 'Get-Tangent', 'Get-Cosecant', 'Get-Secant', 'Get-Cotangent',
-               'Get-ArcCosine', 'Get-ArcSine', 'Get-ArcCosecant', 'Get-ArcSecant', 'Get-ArcCotangent',
-               'Get-ArcTangent', 'Get-HyperbolicCosine', 'Get-HyperbolicSine',
-               'Get-HyperbolicTangent', 'Get-AreaHyperbolicCosine',
-               'Get-AreaHyperbolicSine', 'Get-AreaHyperbolicTangent',
-               'Get-IEEERemainder', 'Get-Maximum', 'Get-Minimum'
+    # Functions to export from this module
+    FunctionsToExport = 'Get-Sign', 'Get-AbsoluteValue', 'Get-Truncated', 'Get-Floor',
+    'Get-Ceiling', 'Get-Rounded', 'Get-NaturalExponentiation',
+    'Get-NaturalLogarithm', 'Get-GeneralExponentiation',
+    'Get-GeneralLogarithm', 'Get-SquareRoot', 'Get-CubeRoot', 'Get-Cosine',
+    'Get-Sine', 'Get-Tangent', 'Get-Cosecant', 'Get-Secant', 'Get-Cotangent',
+    'Get-ArcCosine', 'Get-ArcSine', 'Get-ArcCosecant', 'Get-ArcSecant', 'Get-ArcCotangent',
+    'Get-ArcTangent', 'Get-HyperbolicCosine', 'Get-HyperbolicSine',
+    'Get-HyperbolicTangent', 'Get-AreaHyperbolicCosine',
+    'Get-AreaHyperbolicSine', 'Get-AreaHyperbolicTangent',
+    'Get-IEEERemainder', 'Get-Maximum', 'Get-Minimum'
 
-# Cmdlets to export from this module
-CmdletsToExport = '*'
+    # Cmdlets to export from this module
+    CmdletsToExport = '*'
 
-# Variables to export from this module
-VariablesToExport = ''
+    # Variables to export from this module
+    VariablesToExport = ''
 
-# Aliases to export from this module
-AliasesToExport = '*'
+    # Aliases to export from this module
+    AliasesToExport = '*'
 
-# DSC resources to export from this module
-# DscResourcesToExport = @()
+    # DSC resources to export from this module
+    # DscResourcesToExport = @()
 
-# List of all modules packaged with this module
-# ModuleList = @()
+    # List of all modules packaged with this module
+    # ModuleList = @()
 
-# List of all files packaged with this module
-# FileList = @()
+    # List of all files packaged with this module
+    # FileList = @()
 
-# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-PrivateData = @{
+    # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
+    PrivateData = @{
 
-    PSData = @{
+        PSData = @{
 
-        # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+            # Tags applied to this module. These help with module discovery in online galleries.
+            # Tags = @()
 
-        # A URL to the license for this module.
-        # LicenseUri = ''
+            # A URL to the license for this module.
+            # LicenseUri = ''
 
-        # A URL to the main website for this project.
-        # ProjectUri = ''
+            # A URL to the main website for this project.
+            # ProjectUri = ''
 
-        # A URL to an icon representing this module.
-        # IconUri = ''
+            # A URL to an icon representing this module.
+            # IconUri = ''
 
-        # ReleaseNotes of this module
-        # ReleaseNotes = ''
+            # ReleaseNotes of this module
+            # ReleaseNotes = ''
 
-    } # End of PSData hashtable
+        } # End of PSData hashtable
 
-} # End of PrivateData hashtable
+    } # End of PrivateData hashtable
 
-# HelpInfo URI of this module
-# HelpInfoURI = ''
+    # HelpInfo URI of this module
+    # HelpInfoURI = ''
 
-# Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
-# DefaultCommandPrefix = ''
+    # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
+    # DefaultCommandPrefix = ''
 
 }

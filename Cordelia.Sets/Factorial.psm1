@@ -7,27 +7,27 @@ Set-StrictMode -Version Latest
 [String[]]$FactorialTable = (Get-Content "$PSScriptRoot\FactorialTable.txt");
 
 <#
-    .SYNOPSIS
-        Returns the factorial of a specified value.
+.SYNOPSIS
+Returns the factorial of a specified value.
 
-    .Description
-        Returns the n-th factorial where n is the value passed into the function.
+.Description
+Returns the n-th factorial where n is the value passed into the function.
 
-    .Parameter Alpha
-        Specifies the value to be used to find the factorial.
+.Parameter Alpha
+Specifies the value to be used to find the factorial.
 
-    .Inputs
-        [System.Double]
+.Inputs
+[System.Double]
 
-    .Outputs
-        [System.Double]
+.Outputs
+[System.Double]
 
-    .Link
-        http://mathworld.wolfram.com/Factorial.html
+.Link
+http://mathworld.wolfram.com/Factorial.html
 
-    .Example
-        Get-Factorial 1
-        1
+.Example
+Get-Factorial 1
+1
 #>
 function Get-Factorial
 {
@@ -36,11 +36,11 @@ function Get-Factorial
         [Double]$Alpha
     )
 
-	# Sadly, the largest factorial to fit in a double is 170! = 7.2574156153079989673967282111293e+306.
-	# Values larger will result in infinity.
+    # Sadly, the largest factorial to fit in a double is 170! = 7.2574156153079989673967282111293e+306.
+    # Values larger will result in infinity.
 
-	# There is much better performance to cache the factorial, so the function
-	# will just access a file rather than purely calculate the factorial of a number.
+    # There is much better performance to cache the factorial, so the function
+    # will just access a file rather than purely calculate the factorial of a number.
 
     if($Alpha -lt 0.0 -or [Double]::IsNegativeInfinity($Alpha))
     {
@@ -54,14 +54,14 @@ function Get-Factorial
     # Integers pass this point
     [Double]$val = (Get-Truncated $Alpha);
 
-	[Double]$result = 1.0;
+    [Double]$result = 1.0;
 
-	if($val -le 2.0)
-	{
-		return (Get-Maximum $val 1.0)
-	}
-	else
-	{
-		return [Double]::Parse($FactorialTable[$val - 3]);
-	}
+    if($val -le 2.0)
+    {
+        return (Get-Maximum $val 1.0)
+    }
+    else
+    {
+        return [Double]::Parse($FactorialTable[$val - 3]);
+    }
 }
