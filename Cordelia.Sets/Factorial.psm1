@@ -63,3 +63,38 @@ function Get-FactorialHelper
         return Get-FactorialHelper ([BigInt]::Subtract($current, ([BigInt]::One))) ([BigInt]::Multiply($accum, $current))
     }
 }
+
+##################################################################################################################
+#
+# Calculates the partial factorial (i.e. n!/r! = n * (n-1) * ... * (r+1)
+#
+##################################################################################################################
+function Get-PartialFactorial
+{
+    param(
+        [Parameter(Mandatory = $true, Position = 0)]
+        [BigInt]$value,
+        [Parameter(Mandatory = $true, Position = 1)]
+        [BigInt]$limit
+    )
+
+    if($limit -gt $value -or ($value -eq [BigInt]::Zero) -or ($limit -lt [BigInt]::Zero))
+    {
+        return [BigInt]::Zero
+    }
+    elseif($limit -eq $value)
+    {
+        return [BigInt]::One
+    }
+
+    # instead of tail-call, we use an iterative method
+    $result = [BigInt]::One
+    for($counter = [BigInt]::Add($limit, ([BigInt]::One));
+        $counter -le $value;
+        $counter = [BigInt]::Add($counter, ([BigInt]::One)))
+    {
+        $result = [BigInt]::Multiply($counter, $result)
+    }
+
+    return $result
+}

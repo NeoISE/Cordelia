@@ -1,5 +1,6 @@
 #Requires -Version 3
 #Requires -Module Cordelia.Core
+#Requires -Module Factorial
 Set-StrictMode -Version Latest
 
 <#
@@ -17,10 +18,10 @@ Specifies the total number of elements (in the set).
 Specifies the amount of elements (in the subset).
 
 .Inputs
-[System.Double]
+[System.Numerics.BigInteger]
 
 .Outputs
-[System.Double]
+[System.Numerics.BigInteger]
 
 .Link
 http://mathworld.wolfram.com/Permutation.html
@@ -33,42 +34,17 @@ function Get-Permutation
 {
     param(
         [Parameter(Mandatory = $true, Position = 0)]
-        [Double]$Total,
+        [BigInt]$Total,
         [Parameter(Mandatory = $true, Position = 1)]
-        [Double]$Trial
+        [BigInt]$Trial
     )
 
-    if([Double]::IsNaN($Total) -or [Double]::IsInfinity($Total) -or ($Total -lt 0.0))
+    if(($Total -le [BigInt]::Zero) -or ($Trial -gt $Total) -or ($Trial -lt [BigInt]::Zero))
     {
-        return [Double]::NaN;
-    }
-    elseif([Double]::IsNaN($Trial) -or [Double]::IsInfinity($Trial) -or ($Trial -lt 0.0))
-    {
-        return [Double]::NaN;
+        return [BigInt]::Zero;
     }
 
-    # Take only the integral parts
-    [Double]$n = (Get-Truncated $Total);
-    [Double]$r = (Get-Truncated $Trial);
-
-    if(($n -eq 0.0) -or ($r -gt $n))
-    {
-        return 0.0;
-    }
-    elseif($r -eq 0.0)
-    {
-        return 1.0;
-    }
-
-    [Double]$result = $n--;
-    [Double]$lowBound = (Get-Maximum ($n - $r) 1.0);    # There's no need to multiply by 1
-
-    for(; $n -gt $lowBound; --$n)
-    {
-        $result = $result * $n;
-    }
-
-    return $result;
+    return Get-PartialFactorial $Total ([BigInt]::Subtract($Total, $Trial))
 }
 
 
