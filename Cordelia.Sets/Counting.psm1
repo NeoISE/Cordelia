@@ -63,10 +63,10 @@ Specifies the total number of elements (in the set).
 Specifies the amount of elements (in the subset).
 
 .Inputs
-[System.Double]
+[System.Numerics.BigInteger]
 
 .Outputs
-[System.Double]
+[System.Numerics.BigInteger]
 
 .Link
 http://mathworld.wolfram.com/Combination.html
@@ -79,44 +79,41 @@ function Get-Combination
 {
     param(
         [Parameter(Mandatory = $true, Position = 0)]
-        [Double]$Total,
+        [BigInt]$Total,
         [Parameter(Mandatory = $true, Position = 1)]
-        [Double]$Trial
+        [BigInt]$Trial
     )
 
-    if([Double]::IsNaN($Total) -or [Double]::IsInfinity($Total) -or ($Total -lt 0.0))
+    if(($Total -le [BigInt]::Zero) -or ($Trial -gt $Total) -or ($Trial -lt [BigInt]::Zero))
     {
-        return [Double]::NaN;
+        return [BigInt]::Zero
     }
-    elseif([Double]::IsNaN($Trial) -or [Double]::IsInfinity($Trial) -or ($Trial -lt 0.0))
+    elseif(($Trial -eq $Total) -or ($Trial -eq [BigInt]::Zero))
     {
-        return [Double]::NaN;
-    }
-
-    # Takes only the integral parts
-    [Double]$n = (Get-Truncated $Total);
-    [Double]$r = (Get-Truncated $Trial);
-
-    if(($n -eq 0.0) -or ($r -gt $n))
-    {
-        return 0.0;
-    }
-    elseif(($r -eq 0.0) -or ($n -eq $r))
-    {
-        return 1.0;
+        return [BigInt]::One
     }
 
     # The following algorithm works because C(n,r) = (1 / r!) * n! / (n - r)!, thus the second term simplies to
     # n * (n - 1) * (n - 2) * (...) * (n - r + 1), and the "r" factorial expands to
     # 1 *    2    *    3    * (...) *     (r), thus for every term multiplied, there is an increasing term that is divided out.
 
-    [Double]$lowBound = (Get-Maximum ($n - $r) $r);
-    [Double]$result = $n--;
+    [BigInt]$second = [BigInt]::Subtract($Total, $Trial)
+    [BigInt]$lowBound = [BigInt]::Zero
 
-    for([Double]$i = 2; $n -gt $lowBound; --$n, ++$i)
+    if($second -lt $Trial)
     {
-        $result = $result * $n / $i;
+        $lowBound = $Trial
+    }
+    else
+    {
+        $lowBound = $second
     }
 
-    return $result;
+    [BigInt]$result = Get-PartialFactorial $Total $lowBound
+    for(; $lowBound -ge 2; $lowBound = [BigInt]::Subtract($lowBound, ([BigInt]::One)))
+    {
+        $result = [BigInt]::Divide($result, $lowBound)
+    }
+
+    return $result
 }
