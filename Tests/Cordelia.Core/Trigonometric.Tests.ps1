@@ -30,8 +30,8 @@ Set-StrictMode -Version Latest
 [Double]${Sqrt 2}      = 1.4142135623730950488016887242097
 [Double]${Neg. Sqrt 2} = -1.4142135623730950488016887242097
 
-[Double]${Sqrt 2 Div. by 2}      = 0.70710678118654752440084436210485
-[Double]${Neg. Sqrt 2 Div. by 2} = -0.70710678118654752440084436210485
+[Double]${Sqrt 2 Div. 2}      = 0.70710678118654752440084436210485
+[Double]${Neg. Sqrt 2 Div. 2} = -0.70710678118654752440084436210485
 
 [Double]${Sqrt 3}      = 1.7320508075688772935274463415059
 [Double]${Neg. Sqrt 3} = -1.7320508075688772935274463415059
@@ -76,7 +76,7 @@ Describe "Get-ArcSine" {
             @{ Expected = ${Neg. PI Halves} ; Argument = -1.0 ;
                'Expected Display' = '-(PI/2)' ; 'Argument Display' = -1.0 }
 
-            @{ Expected = ${PI Fourths} ; Argument = ${Sqrt 2 Div. by 2} ;
+            @{ Expected = ${PI Fourths} ; Argument = ${Sqrt 2 Div. 2} ;
                'Expected Display' = '(PI/4)' ; 'Argument Display' = '(SQRT(2) / 2)' }
 
             @{ Expected = ${PI Sixths} ; Argument = 0.5 ;
@@ -150,6 +150,97 @@ Describe "Get-ArcTangent" {
             param($Expected, $X, $Y, ${Expected Display}, ${X Display}, ${Y Display})
 
             $ans = Get-ArcTangent -X $X -Y $Y
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+        }
+    }
+
+    #Context "Arguments are given through the Pipeline" {
+    #
+    #}
+}
+
+Describe "Get-Cosine" {
+    Context "Arguments are given as Parameters" {
+        [Double]${13 PI Sixths} = 6.8067840827778853500023939971056
+        [Double]${Neg. 2 PI Thirds} = -2.0943951023931954923084289221863
+        [Double]${Sqrt 3 Div. 2} = 0.86602540378443864676372317075294
+
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = 1.0 ; Argument = 0.0 ;
+               'Expected Display' = 1.0 ; 'Argument Display' = 0.0 }
+
+            @{ Expected = ${Sqrt 3 Div. 2} ; Argument = ${13 PI Sixths} ;
+               'Expected Display' = '(SQRT(3) / 2)' ; 'Argument Display' = '(13 * PI/6)' }
+
+            @{ Expected = -0.5 ; Argument = ${Neg. 4 PI Thirds} ;
+               'Expected Display' = -0.5 ; 'Argument Display' = '-(2 * PI / 3)' }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-Cosine $Argument
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+        }
+    }
+
+    #Context "Arguments are given through the Pipeline" {
+    #
+    #}
+}
+
+Describe "Get-Sine" {
+    Context "Arguments are given as Parameters" {
+        [Double]${21 PI Fourths} = 16.493361431346414501928877762217
+        [Double]${Neg. 5 PI Halves} = -7.8539816339744830961566084581988
+
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = 0.0 ; Argument = 0.0 ;
+               'Expected Display' = 0.0 ; 'Argument Display' = 0.0 }
+
+            @{ Expected = ${Sqrt 2 Div. 2} ; Argument = ${21 PI Fourths} ;
+               'Expected Display' = '(SQRT(2) / 2)' ; 'Argument Display' = '(21 * PI/4)' }
+
+            @{ Expected = -1.0 ; Argument = ${Neg. 5 PI Halves} ;
+               'Expected Display' = -1.0 ; 'Argument Display' = '-(5 * PI / 2)' }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-Sine $Argument
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+        }
+    }
+
+    #Context "Arguments are given through the Pipeline" {
+    #
+    #}
+}
+
+Describe "Get-Tangent" {
+    Context "Arguments are given as Parameters" {
+        [Double]${14 PI Thirds} = 14.660765716752368446159002455304
+        [Double]${Neg. 3 PI Fourths} = -2.3561944901923449288469825374596
+
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = 0.0 ; Argument = 0.0 ;
+               'Expected Display' = 0.0 ; 'Argument Display' = 0.0 }
+
+            @{ Expected = ${Neg. Sqrt 3} ; Argument = ${14 PI Thirds} ;
+               'Expected Display' = '-SQRT(3)' ; 'Argument Display' = '(14 * PI/3)' }
+
+            @{ Expected = 1.0 ; Argument = ${Neg. 3 PI Fourths} ;
+               'Expected Display' = 1.0 ; 'Argument Display' = '-(3 * PI / 4)' }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-Tangent $Argument
             $ans | Should -BeOfType System.Double
 
             $Tolerance = $PRECISION * [Math]::Abs( $Expected )
