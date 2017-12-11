@@ -307,7 +307,7 @@ Describe "Get-Cotangent" {
     Context "Arguments are given as Parameters" {
         It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
             @{ Expected = 0.0 ; Argument = ${PI Halves} ;
-               'Expected Display' = 0.0 ; 'Argument Display' = ${PI Halves} }
+               'Expected Display' = 0.0 ; 'Argument Display' = '(PI/2)' }
 
             @{ Expected = 1.0 ; Argument = ${PI Fourths} ;
                'Expected Display' = 1.0 ; 'Argument Display' = '(PI/4)' }
@@ -315,6 +315,80 @@ Describe "Get-Cotangent" {
             param($Expected, $Argument, ${Expected Display}, ${Argument Display})
 
             $ans = Get-Cotangent $Argument
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
+        }
+    }
+
+    #Context "Arguments are given through the Pipeline" {
+    #
+    #}
+}
+
+Describe "Get-ArcCosecant" {
+    Context "Arguments are given as Parameters" {
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = ${PI Halves} ; Argument = 1.0 ;
+               'Expected Display' = '(PI/2)' ; 'Argument Display' = 1.0 }
+
+            @{ Expected = ${PI Fourths} ; Argument = ${Sqrt 2} ;
+               'Expected Display' = '(PI/4)' ; 'Argument Display' = 'SQRT(2)' }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-ArcCosecant $Argument
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
+        }
+    }
+
+    #Context "Arguments are given through the Pipeline" {
+    #
+    #}
+}
+
+Describe "Get-ArcSecant" {
+    Context "Arguments are given as Parameters" {
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = 0.0 ; Argument = 1.0 ;
+               'Expected Display' = 0.0 ; 'Argument Display' = 1.0 }
+
+            @{ Expected = ${PI Fourths} ; Argument = ${Sqrt 2} ;
+               'Expected Display' = '(PI/4)' ; 'Argument Display' = 'SQRT(2)' }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-ArcSecant $Argument
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
+        }
+    }
+
+    #Context "Arguments are given through the Pipeline" {
+    #
+    #}
+}
+
+Describe "Get-ArcCotangent" {
+    Context "Arguments are given as Parameters" {
+        [Double]${3 PI Fourths} = 2.3561944901923449288469825374596
+
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = ${PI Halves} ; Argument = 0.0 ;
+               'Expected Display' = '(PI/2)' ; 'Argument Display' = 0.0 }
+
+            @{ Expected = ${3 PI Fourths} ; Argument = -1.0 ;
+               'Expected Display' = '(3 * PI/4)' ; 'Argument Display' = -1.0 }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-ArcCotangent $Argument
             $ans | Should -BeOfType System.Double
 
             $Tolerance = $PRECISION * [Math]::Abs( $Expected )
