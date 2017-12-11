@@ -55,7 +55,7 @@ Describe "Get-ArcCosine" {
             $ans | Should -BeOfType System.Double
 
             $Tolerance = $PRECISION * [Math]::Abs( $Expected )
-            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
         }
     }
 
@@ -88,7 +88,7 @@ Describe "Get-ArcSine" {
             $ans | Should -BeOfType System.Double
 
             $Tolerance = $PRECISION * [Math]::Abs( $Expected )
-            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
         }
     }
 
@@ -115,7 +115,7 @@ Describe "Get-ArcTangent" {
             $ans | Should -BeOfType System.Double
 
             $Tolerance = $PRECISION * [Math]::Abs( $Expected )
-            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
         }
     }
 
@@ -153,7 +153,7 @@ Describe "Get-ArcTangent" {
             $ans | Should -BeOfType System.Double
 
             $Tolerance = $PRECISION * [Math]::Abs( $Expected )
-            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
         }
     }
 
@@ -184,7 +184,7 @@ Describe "Get-Cosine" {
             $ans | Should -BeOfType System.Double
 
             $Tolerance = $PRECISION * [Math]::Abs( $Expected )
-            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
         }
     }
 
@@ -214,7 +214,7 @@ Describe "Get-Sine" {
             $ans | Should -BeOfType System.Double
 
             $Tolerance = $PRECISION * [Math]::Abs( $Expected )
-            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
         }
     }
 
@@ -244,7 +244,81 @@ Describe "Get-Tangent" {
             $ans | Should -BeOfType System.Double
 
             $Tolerance = $PRECISION * [Math]::Abs( $Expected )
-            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
+        }
+    }
+
+    #Context "Arguments are given through the Pipeline" {
+    #
+    #}
+}
+
+Describe "Get-Cosecant" {
+    Context "Arguments are given as Parameters" {
+        [Double]${2 Div. Sqrt 3} = 1.1547005383792515290182975610039
+
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = 1.0 ; Argument = ${PI Halves} ;
+               'Expected Display' = 1.0 ; 'Argument Display' = '(PI/2)' }
+
+            @{ Expected = ${2 Div. Sqrt 3} ; Argument = ${PI Thirds} ;
+               'Expected Display' = '-(2 / SQRT(3))' ; 'Argument Display' = '(PI/3)' }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-Cosecant $Argument
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
+        }
+    }
+
+    #Context "Arguments are given through the Pipeline" {
+    #
+    #}
+}
+
+Describe "Get-Secant" {
+    Context "Arguments are given as Parameters" {
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = 1.0 ; Argument = 0.0 ;
+               'Expected Display' = 1.0 ; 'Argument Display' = 0.0 }
+
+            @{ Expected = ${Sqrt 2} ; Argument = ${PI Fourths} ;
+               'Expected Display' = 'SQRT(2)' ; 'Argument Display' = '(PI/4)' }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-Secant $Argument
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
+        }
+    }
+
+    #Context "Arguments are given through the Pipeline" {
+    #
+    #}
+}
+
+Describe "Get-Cotangent" {
+    Context "Arguments are given as Parameters" {
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = 0.0 ; Argument = ${PI Halves} ;
+               'Expected Display' = 0.0 ; 'Argument Display' = ${PI Halves} }
+
+            @{ Expected = 1.0 ; Argument = ${PI Fourths} ;
+               'Expected Display' = 1.0 ; 'Argument Display' = '(PI/4)' }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-Cotangent $Argument
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -Not -BeGreaterThan $Tolerance
         }
     }
 
