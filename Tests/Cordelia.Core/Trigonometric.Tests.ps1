@@ -1,31 +1,61 @@
 #Requires -Version 3
 Set-StrictMode -Version Latest
 
-# We cannot compare doubles directly
+# We cannot compare values of doubles directly (i.e. rounding errors)
 # So it is wise to compare the absolute difference of expected and actual instead
-# Thus, 'equality' becomes 'less than' and 'not equals' becomes 'greater than'
-[Double]$Tolerance = [Math]::Pow(10, -15)
+# Thus, 'equality' becomes 'less than' and 'not equals' becomes 'greater than or equal to' (or 'not less than') to a maximum allowed "Tolerance" which can be derived from:
+#   n = percent_error / 100 = relative_error = abs(Expected - Actual) / abs(Expected) ->
+#   abs(Expected - Actual) = n * abs(Expected) = Tolerance
+# For simplicity, we let
+#   Expected = 10^15,
+#   Actual   = 10^15 + 1 ->
+#   n = 1/(10^15) = 10^(-15)
+[Double]$PRECISION = [Math]::Pow(10, -15)
 
-[Double]$PI = [Math]::PI
-[Double]${PI Halves} = 1.5707963267948966192313216916398
-[Doulbe]${Negative PI Halves} = -1.5707963267948966192313216916398
-[Double]${Two PI} = 6.283185307179586476925286766559
+[Double]$PI     = 3.1415926535897932384626433832795
+[Double]${2 PI} = 6.283185307179586476925286766559
+
+[Double]${PI Halves}      = 1.5707963267948966192313216916398
+[Double]${Neg. PI Halves} = -1.5707963267948966192313216916398
+
+[Double]${PI Fourths}      = 0.78539816339744830961566084581988
+[Double]${Neg. PI Fourths} = -0.78539816339744830961566084581988
+
+[Double]${PI Thirds}      = 1.0471975511965977461542144610932
+[Double]${Neg. PI Thirds} = -1.0471975511965977461542144610932
+
+[Double]${PI Sixths}      = 0.52359877559829887307710723054658
+[Double]${Neg. PI Sixths} = -0.52359877559829887307710723054658
+
+[Double]${Sqrt 2}      = 1.4142135623730950488016887242097
+[Double]${Neg. Sqrt 2} = -1.4142135623730950488016887242097
+
+[Double]${Sqrt 2 Div. by 2}      = 0.70710678118654752440084436210485
+[Double]${Neg. Sqrt 2 Div. by 2} = -0.70710678118654752440084436210485
+
+[Double]${Sqrt 3}      = 1.7320508075688772935274463415059
+[Double]${Neg. Sqrt 3} = -1.7320508075688772935274463415059
+
 
 Describe "Get-ArcCosine" {
     Context "Arguments are given as Parameters" {
-        It "Should return 'PI' when given -1 as an argument" {
-            $ans = Get-ArcCosine -1
-            [Math]::Abs( $ans - $PI ) | Should -BeLessThan $Tolerance
-        }
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = $PI ; Argument = -1.0 ;
+               'Expected Display' = 'PI' ; 'Argument Display' = -1.0 }
 
-        It "Should return '0' when given 1 as an argument" {
-            $ans = Get-ArcCosine 1
-            [Math]::Abs( $ans ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = 0.0 ; Argument = 1.0 ;
+               'Expected Display' = 0.0 ; 'Argument Display' = 1.0 }
 
-        It "Should return 'PI/2' when given 0 as an argument" {
-            $ans = Get-ArcCosine 0
-            [Math]::Abs( $ans - ${PI Halves} ) | Should -BeLessThan $Tolerance
+            @{ Expected = ${PI Halves} ; Argument = 0.0 ;
+               'Expected Display' = '(PI/2)' ; 'Argument Display' = 0.0 }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
+
+            $ans = Get-ArcCosine $Argument
+            $ans | Should -BeOfType System.Double
+
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
         }
     }
 
@@ -36,34 +66,29 @@ Describe "Get-ArcCosine" {
 
 Describe "Get-ArcSine" {
     Context "Arguments are given as Parameters" {
-        It "Should return 'PI/2' when given 1 as an argument" {
-            $ans = Get-ArcSine 1
-            [Math]::Abs( $ans - ${PI Halves}) | Should -BeLessThan $Tolerance
-        }
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = ${PI Halves} ; Argument = 1.0 ;
+               'Expected Display' = '(PI/2)' ; 'Argument Display' = 1.0 }
 
-        It "Should return '0' when given 0 as an argument" {
-            $ans = Get-ArcSine 0
-            [Math]::Abs( $ans ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = 0.0 ; Argument = 0.0 ;
+               'Expected Display' = 0.0 ; 'Argument Display' = 0.0 }
 
-        It "Should return '-(PI/2)' when given -1 as an argument" {
-            $ans = Get-ArcSine -1
-            [Math]::Abs( $ans - ${Negative PI Halves} ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = ${Neg. PI Halves} ; Argument = -1.0 ;
+               'Expected Display' = '-(PI/2)' ; 'Argument Display' = -1.0 }
 
-        It "Should return '(PI/4)' when given '(SQRT(2) / 2)' as an argument" {
-            ${PI Fourth} = 0.78539816339744830961566084581988
-            ${Sqrt Two} = 1.4142135623730950488016887242097
+            @{ Expected = ${PI Fourths} ; Argument = ${Sqrt 2 Div. by 2} ;
+               'Expected Display' = '(PI/4)' ; 'Argument Display' = '(SQRT(2) / 2)' }
 
-            $ans = Get-ArcSine ( ${Sqrt Two} / 2.0 )
-            [Math]::Abs( $ans - ${PI Fourth} ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = ${PI Sixths} ; Argument = 0.5 ;
+               'Expected Display' = '(PI/6)' ; 'Argument Display' = 0.5 }
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
 
-        It "Should return '(PI/6)' when given '(1/2)' as an argument" {
-            ${PI Sixth} = 0.52359877559829887307710723054658
+            $ans = Get-ArcSine $Argument
+            $ans | Should -BeOfType System.Double
 
-            $ans = Get-ArcSine 0.5
-            [Math]::Abs( $ans - ${PI Sixth} ) | Should -BeLessThan $Tolerance
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
         }
     }
 
@@ -73,78 +98,62 @@ Describe "Get-ArcSine" {
 }
 
 Describe "Get-ArcTangent" {
-    Context "Arguments are given as Parameters; 'Ratio' ParameterSet" {
-        It "Should return 0 when given 0 as an argument" {
-            $ans = Get-ArcTangent 0
-            [Math]::Abs( $ans ) | Should -BeLessThan $Tolerance
-        }
+    Context "Arguments are given as Parameters; 'Ratio' Parameter Set" {
+        It "Should return '<Expected Display>' when given '<Argument Display>'" -TestCases @(
+            @{ Expected = 0.0 ; Argument = 0.0 ;
+               'Expected Display' = 0.0 ; 'Argument Display' = 0.0 }
 
-        It "Should return '(PI/4)' when given 1 as an argument" {
-            ${PI Fourth} = 0.78539816339744830961566084581988
+            @{ Expected = ${PI Fourths} ; Argument = 1.0 ;
+               'Expected Display' = '(PI/4)' ; 'Argument Display' = 1.0 }
 
-            $ans = Get-ArcTangent 1
-            [Math]::Abs( $ans - ${PI Fourth} ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = ${Neg. PI Thirds} ; Argument = ${Neg. Sqrt 3} ;
+               'Expected Display' = '-(PI/3)' ; 'Argument Display' = '-SQRT(3)'}
+        ) {
+            param($Expected, $Argument, ${Expected Display}, ${Argument Display})
 
-        It "Should return '-(PI/3)' when given '-SQRT(3)' as an argument" {
-            ${Negative Sqrt Three} = -1.7320508075688772935274463415059
-            ${Negative PI Third} = -1.0471975511965977461542144610932
+            $ans = Get-ArcTangent $Argument
+            $ans | Should -BeOfType System.Double
 
-            $ans = Get-ArcTangent ${Negative PI Third}
-            [Math]::Abs( $ans - ${Negative Sqrt Three} ) | Should -BeLessThan $Tolerance
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
         }
     }
 
-    Context "Arguments are given as Parameters; 'Point' ParameterSet" {
-        It "Should return 0 when given Cartesian Points: X = 0 and Y = 0" {
-            $ans = Get-ArcTangent -X 0 -Y 0
-            [Math]::Abs( $ans ) | Should -BeLessThan $Tolerance
-        }
+    Context "Arguments are given as Parameters; 'Point' Parameter Set" {
+        [Double]${Neg. 5 PI Sixths} = -2.6179938779914943653855361527329
 
-        It "Should return '(PI/4)' when given Cartesian Points: X = 1 and Y = 1" {
-            ${PI Fourth} = 0.78539816339744830961566084581988
+        It "Should return '<Expected Display>' when given Cartesian Points: X = '<X Display>' and Y = '<Y Display>'" -TestCases @(
+            @{ Expected = 0.0 ; X = 0.0 ; Y = 0.0 ;
+               'Expected Display' = 0.0 ; 'X Display' = 0.0 ; 'Y Display' = 0.0 }
 
-            $ans = Get-ArcTangent -X 1 -Y 1
-            [Math]::Abs( $ans - ${PI Fourth} ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = ${PI Fourths} ; X = 1.0 ; Y = 1.0 ;
+               'Expected Display' = '(PI/4)' ; 'X Display' = 1.0 ; 'Y Display' = 1.0 }
 
-        It "Should return '(PI/2)' when given Cartesian Points: X = 0 and Y = 1" {
-            $ans = Get-ArcTangent -X 0 -Y 1
-            [Math]::Abs( $ans - ${PI Halves} ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = ${PI Halves} ; X = 0.0 ; Y = 1.0 ;
+               'Expected Display' = '(PI/2)' ; 'X Display' = 0.0 ; 'Y Display' = 1.0 }
 
-        It "Should return '(2 * PI/3)' when given Cartesian Points: X = -1 and Y = SQRT(3)" {
-            ${Two PI Thirds} = 2.0943951023931954923084289221863
-            ${Sqrt Three} = 1.7320508075688772935274463415059
+            @{ Expected = ${Two PI Thirds} ; X = -1.0 ; Y = ${Sqrt 3} ;
+               'Expected Display' = '(2 * PI/3)' ; 'X Display' = -1.0 ; 'Y Display' = 'SQRT(3)' }
 
-            $ans = Get-ArcTangent -X -1 -Y ${Sqrt Three}
-            [Math]::Abs( $ans - ${Two PI Thirds} ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = $PI ; X = -1.0 ; Y = 0.0 ;
+               'Expected Display' = 'PI' ; 'X Display' = -1.0 ; 'Y Display' = 0.0 }
 
-        It "Should return PI when given Cartesian Points: X = -1 and Y = 0" {
-            $ans = Get-ArcTangent -X -1 -Y 0
-            [Math]::Abs( $ans - $PI ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = ${Neg. 5 PI Sixths} ; X = ${Neg. Sqrt 3} ; Y = -1.0 ;
+               'Expected Display' = '-(5 * PI/6)' ; 'X Display' = '-SQRT(3)' ; 'Y Display' = -1.0 }
 
-        It "Should return '(-5 * PI/6)' when given Cartesian Points: X = -SQRT(3) and Y = -1" {
-            ${Negative Five PI Sixths} = -2.6179938779914943653855361527329
-            ${Negative Sqrt Three} = -1.7320508075688772935274463415059
+            @{ Expected = ${Neg. PI Halves} ; X = 0.0 ; Y = -1.0 ;
+               'Expected Display' = '-(PI/2)' ; 'X Display' = 0.0 ; 'Y Display' = -1.0 }
 
-            $ans = Get-ArcTangent -X ${Negative Sqrt Three} -Y -1
-            [Math]::Abs( $ans - ${Negative Five PI Sixths} ) | Should -BeLessThan $Tolerance
-        }
+            @{ Expected = ${Neg. PI Thirds} ; X = 1.0 ; Y = ${Neg. Sqrt 3} ;
+               'Expected Display' = '-(PI/3)' ; 'X Display' = 1.0 ; 'Y Display' = '-SQRT(3)' }
+        ) {
+            param($Expected, $X, $Y, ${Expected Display}, ${X Display}, ${Y Display})
 
-        It "Should return '(-PI/2)' when given Cartesian Points: X = 0 and Y = -1" {
-            $ans = Get-ArcTangent -X 0 -Y -1
-            [Math]::Abs( $ans - ${Negative PI Halves} ) | Should -BeLessThan $Tolerance
-        }
+            $ans = Get-ArcTangent -X $X -Y $Y
+            $ans | Should -BeOfType System.Double
 
-        It "Should return '(-PI/3)' when given Cartesian Points: X = 1 and Y = -SQRT(3)" {
-            ${Negative PI Third} = -1.0471975511965977461542144610932
-            ${Negative Sqrt Three} = -1.7320508075688772935274463415059
-
-            $ans = Get-ArcTangent -X 1 -Y ${Negative Sqrt Three}
-            [Math]::Abs( $ans - ${Negative PI Third} ) | Should -BeLessThan $Tolerance
+            $Tolerance = $PRECISION * [Math]::Abs( $Expected )
+            [Math]::Abs( $Expected - $ans ) | Should -BeLessThan $Tolerance
         }
     }
 
